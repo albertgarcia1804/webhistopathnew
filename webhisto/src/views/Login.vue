@@ -54,7 +54,7 @@
 
 <script>
     import axios from 'axios'
-    import { setAuthenticated } from '../services/authService';
+    // import { setAuthenticated } from '../services/authService';
     export default {
         data() {
             return {
@@ -76,22 +76,17 @@
                         this.message = true;
                         this.error_message = response.data.message;
                     } else {
-                        localStorage.setItem('token', response.data.token);
-                        this.loading = true;
 
-                        const getUserRoleResponse = await axios.get('http://127.0.0.1:1234/api/user/role', {
-                            headers: {
-                                Authorization: `Bearer ${localStorage.getItem('token')}`,
-                            },
-                        });
+                        localStorage.setItem('token', response.data.token);
+                        localStorage.setItem('userRole', response.data.role);
+                        this.loading = true;
                         
-                        localStorage.setItem('userRole', getUserRoleResponse.data.role);
-                        console.log(getUserRoleResponse.data.role);
-                        if(getUserRoleResponse.data.role == '0'){
+                        console.log(response.data);
+                        if(response.data.role == '0'){
                             this.$router.push({ name: 'AdminHome' });
-                        } else if(getUserRoleResponse.data.role == '30'){
+                        } else if(response.data.role == '30'){
                             this.$router.push({ name: 'MedtechHome' });
-                        } else if(getUserRoleResponse.data.role == '45'){
+                        } else if(response.data.role == '45'){
                             this.$router.push({ name: 'PathologistHome' });
                         }
                         this.loading = false;

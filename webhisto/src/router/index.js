@@ -5,136 +5,87 @@ import AdminLayout from '@/layouts/default/AdminLayout.vue';
 import MedtechLayout from '@/layouts/default/MedtechLayout.vue';
 import PathologistLayout from '@/layouts/default/PathologistLayout.vue';
 
-const before_enter = (to, from, next) => {
-  const userRole = localStorage.getItem('userRole');
-  const userToken = localStorage.getItem('token');
-  if (!userToken) {
-    next();
-  } else {
-    if(userRole == 0){
-      next('/admin');
-    } else if(userRole == 30) {
-      next('/medtech');
-    } else if(userRole == 40) {
-      next('/pathologist');
-    }
+function isLoggedIn() {
+  if(localStorage.getItem('token') !== null){
+    return localStorage.getItem('token');
   }
 }
 
+function requireAuth(to, from, next) {
+  const LoggedinUserRole = localStorage.getItem('userRole');
+  console.log(to);
+  console.log(LoggedinUserRole);
+  console.log(localStorage.getItem('token'));
+  if (to.meta.requiresAuth && !isLoggedIn()) {
+    next({ name: 'Login' });
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 0) {
+    next({ name: 'AdminHome' });
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 30) {
+    next({ name: 'MedtechHome' });
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 45) {
+    next({ name: 'PathologistHome' });
+  } else {
+    next(); // Proceed to the route
+  }
+}
+
+
 const routes = [
   {
-    path: '/',
+    path: '',
     name: 'Login',
     component: () => import('@/views/Login.vue'),
     meta: {
-      layout: Default,
-      requiresAuth: false,
-    },
-    beforeEnter: before_enter,
-  },
-  {
-    path: '/register',
-    name: 'DefaultRegister',
-    component: () => import('@/views/DefaultRegister.vue'),
-    meta: {
-      layout: Default,
+      layout: Default
     }
   },
   {
     path: '/admin',
-    name: 'AdminHome',
-    component: () => import('@/views/admin/AdminHome.vue'),
+    component: AdminLayout,
     meta: {
-      roles: 0,
       requiresAuth: true,
-      layout: AdminLayout,
-    },
-    beforeEnter: (to, from, next) => {
-      const userRole = JSON.parse(localStorage.getItem('userRole'));
-      const userToken = localStorage.getItem('token');
-      // if (to.meta.requiresAuth && !userRole) {
-      if (!userToken) {
-        next();
-      } else {
-        if(to.meta.roles == 0){
-          next();
-        } else {
-          next();
-        }
-      }
     },
     children: [
-      // Your other routes go here
-    ]
-  },
-  {
-    path: '/medtech',
-    name: 'MedtechHome',
-    component: () => import('@/views/medtech/MedtechHome.vue'),
-    meta: {
-      roles: ['0','30'],
-      requiresAuth: true,
-      layout: MedtechLayout,
-    },
-    beforeEnter: (to, from, next) => {
-      const userRole = JSON.parse(localStorage.getItem('userRole'));
-      const userToken = localStorage.getItem('token');
-      // if (to.meta.requiresAuth && !userRole) {
-      //   next('/');
-      // } else {
-      //   if (to.meta.roles && !to.meta.roles.includes(userRole)) {
-      //     next('/medtech');
-      //   } else {
-      //     next();
-      //   }
-      // }
-      if (!userToken) {
-        next();
-      } else {
-        if(to.meta.roles.includes(userRole)){
-          next();
-        } else {
-          next();
-        }
+      {
+        path: '',
+        name: 'AdminHome',
+        component: () => import('@/views/admin/AdminHome.vue'),
+      },
+      {
+        path: 'test_codes',
+        name: 'TestCodes',
+        component: () => import('@/views/admin/test_codes/Index.vue'),
+      },
+      {
+        path: 'test_groups',
+        name: 'TestGroups',
+        component: () => import('@/views/admin/test_groups/Index.vue'),
+      },
+      {
+        path: 'instruments',
+        name: 'Instruments',
+        component: () => import('@/views/admin/instruments/Instruments.vue'),
+      },
+      {
+        path: 'instrument_sets',
+        name: 'InstrumentSets',
+        component: () => import('@/views/admin/instruments/InstrumentSets.vue'),
+      },
+      {
+        path: 'branches',
+        name: 'Branches',
+        component: () => import('@/views/admin/branches/Branches.vue'),
+      },
+      {
+        path: 'locations',
+        name: 'Locations',
+        component: () => import('@/views/admin/locations/Locations.vue'),
+      },
+      {
+        path: 'users',
+        name: 'Users',
+        component: () => import('@/views/admin/users/Users.vue'),
       }
-    },
-    children: [
-      // Your other routes go here
-    ]
-  },
-  {
-    path: '/pathologist',
-    name: 'PathologistHome',
-    component: () => import('@/views/pathologist/PathologistHome.vue'),
-    meta: {
-      roles: ['0','40'],
-      isAuthenticated: true,
-      layout: PathologistLayout,
-    },
-    beforeEnter: (to, from, next) => {
-      const userRole = JSON.parse(localStorage.getItem('userRole'));
-      const userToken = localStorage.getItem('token');
-      // if (to.meta.requiresAuth && !userRole) {
-      //   next('/');
-      // } else {
-      //   if (to.meta.roles && !to.meta.roles.includes(userRole)) {
-      //     next('/medtech');
-      //   } else {
-      //     next();
-      //   }
-      // }
-      if (!userToken) {
-        next();
-      } else {
-        if(to.meta.roles.includes(userRole)){
-          next();
-        } else {
-          next();
-        }
-      }
-    },
-    children: [
-      // Your other routes go here
     ]
   },
 ]
@@ -143,5 +94,7 @@ const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes,
 });
+
+router.beforeEach(requireAuth);
 
 export default router
