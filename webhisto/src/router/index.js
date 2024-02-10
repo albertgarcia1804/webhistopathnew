@@ -88,6 +88,34 @@ const routes = [
       }
     ]
   },
+  {
+    path: '/medtech',
+    component: MedtechLayout,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'MedtechHome',
+        component: () => import('@/views/medtech/MedtechHome.vue'),
+      }
+    ]
+  },
+  {
+    path: '/pathologist',
+    component: PathologistLayout,
+    meta: {
+      requiresAuth: true,
+    },
+    children: [
+      {
+        path: '',
+        name: 'PathologistHome',
+        component: () => import('@/views/pathologist/PathologistHome.vue'),
+      }
+    ]
+  },
 ]
 
 const router = createRouter({
