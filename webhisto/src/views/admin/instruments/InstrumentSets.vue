@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <h1>Instrument Sets</h1>
+        <h3>Instrument Sets</h3>
     </div>
 </template>
 

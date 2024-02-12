@@ -5,7 +5,7 @@
 
 <template>
     <div>
-        <h1>Branches</h1>
+        <h3>Branches</h3>
     </div>
 </template>
 

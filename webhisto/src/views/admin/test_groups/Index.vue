@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <h1>Test Groups</h1>
+        <h3>Test Groups</h3>
     </div>
 </template>
 

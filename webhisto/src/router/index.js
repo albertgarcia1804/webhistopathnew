@@ -13,16 +13,16 @@ function isLoggedIn() {
 
 function requireAuth(to, from, next) {
   const LoggedinUserRole = localStorage.getItem('userRole');
-  console.log(to);
-  console.log(LoggedinUserRole);
-  console.log(localStorage.getItem('token'));
+  // console.log(to);
+  // console.log(LoggedinUserRole);
+  // console.log(localStorage.getItem('token'));
   if (to.meta.requiresAuth && !isLoggedIn()) {
     next({ name: 'Login' });
-  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 0) {
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === '0') {
     next({ name: 'AdminHome' });
-  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 30) {
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === '30') {
     next({ name: 'MedtechHome' });
-  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === 45) {
+  } else if (to.name === 'Login' && isLoggedIn() && LoggedinUserRole === '45') {
     next({ name: 'PathologistHome' });
   } else {
     next(); // Proceed to the route
@@ -100,7 +100,13 @@ const routes = [
         name: 'MedtechHome',
         component: () => import('@/views/medtech/MedtechHome.vue'),
       }
-    ]
+    ],
+    beforeEnter: (to, from, next) => {
+      const LoggedinUserRole = Number(localStorage.getItem('userRole'));
+      if (isLoggedIn() && LoggedinUserRole === 30) {
+        next(); // Allow access to medtech routes
+      }
+    }
   },
   {
     path: '/pathologist',

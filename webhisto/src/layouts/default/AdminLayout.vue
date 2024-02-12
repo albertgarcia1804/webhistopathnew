@@ -58,7 +58,7 @@
   
         <v-app-bar :elevation="1">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-app-bar-title>
+            <v-app-bar-title style="font-size:14px;">
                 Welcome, <b>Admin!</b>
             </v-app-bar-title>
             <div v-if="userRole == 0">

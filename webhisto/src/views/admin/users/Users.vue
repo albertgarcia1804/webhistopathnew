@@ -4,7 +4,7 @@
 
 <template>
     <div>
-        <h1>User Accounts</h1>
+        <h3>User Accounts</h3>
     </div>
 </template>
 

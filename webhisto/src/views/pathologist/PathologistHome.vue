@@ -1,5 +1,5 @@
 <template>
     <div>
-        <h1>pahotlogist Home</h1>
+        <h3>Pahotlogist Home</h3>
     </div>
 </template>

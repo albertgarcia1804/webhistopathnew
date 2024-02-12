@@ -5,8 +5,8 @@
                 <v-list-item class="text-center">
                     <img :src="imageSrc" alt="Example Image" height="60"/>
                 </v-list-item>
-                <v-list-item link href="/admin" prepend-icon="mdi-view-dashboard-outline" title="Dashboard"></v-list-item>
-                <v-list-group value="">
+                <v-list-item link href="/medtech" prepend-icon="mdi-view-dashboard-outline" title="Dashboard"></v-list-item>
+                <!-- <v-list-group value="">
                     <template v-slot:activator="{ props }">
                     <v-list-item
                         prepend-icon="mdi-list-box-outline"
@@ -16,7 +16,9 @@
                     </template>
                     <v-list-item title="Test Codes" to="/admin/test_codes"></v-list-item>
                     <v-list-item title="Test Groups" to="/admin/test_groups"></v-list-item>
-                </v-list-group>
+                </v-list-group> -->
+                
+                <v-list-item title="Test Orders" to="/medtech/test_orders" prepend-icon="mdi-list-box-outline"></v-list-item>
             </v-list>
             <template v-slot:append>
             <div class="pa-2">
@@ -35,8 +37,9 @@
   
         <v-app-bar :elevation="1">
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-            <v-app-bar-title>
+            <v-app-bar-title style="font-size:14px;">
                 Welcome, <b>Medtech!</b>
+                <!-- <img src="@/assets/webhistopath.png" style="height:50px;"> -->
             </v-app-bar-title>
             <div v-if="userRole == 0">
                 <SelectPage />
@@ -44,7 +47,7 @@
         </v-app-bar>
   
         <v-main>
-            <v-container>
+            <v-container fluid>
               <router-view />
             </v-container>
         </v-main>
@@ -53,9 +56,9 @@
   
 <script setup>
     import { ref } from 'vue';
-    import Login from '@/views/Login.vue';
+    // import Login from '@/views/Login.vue';
     import SelectPage from '@/components/SelectPage.vue';
-    const drawer = ref(null);
+    const drawer = ref(0);
 </script>
   
 <script>
