@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3>Locations</h3>
+        <h3>Phases</h3>
     </div>
 </template>
 

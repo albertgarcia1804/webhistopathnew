@@ -85,6 +85,11 @@ const routes = [
         path: 'users',
         name: 'Users',
         component: () => import('@/views/admin/users/Users.vue'),
+      },
+      {
+        path: 'phases',
+        name: 'Phases',
+        component: () => import('@/views/admin/phases/Phases.vue'),
       }
     ]
   },
@@ -101,12 +106,12 @@ const routes = [
         component: () => import('@/views/medtech/MedtechHome.vue'),
       }
     ],
-    beforeEnter: (to, from, next) => {
-      const LoggedinUserRole = Number(localStorage.getItem('userRole'));
-      if (isLoggedIn() && LoggedinUserRole === 30) {
-        next(); // Allow access to medtech routes
-      }
-    }
+    // beforeEnter: (to, from, next) => {
+    //   const LoggedinUserRole = Number(localStorage.getItem('userRole'));
+    //   if (isLoggedIn() && LoggedinUserRole === 30) {
+    //     next(); // Allow access to medtech routes
+    //   }
+    // }
   },
   {
     path: '/pathologist',

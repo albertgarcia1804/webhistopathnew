@@ -27,7 +27,7 @@
                     Logout
                 </v-btn>
                 </div>
-                <div v-if="logoutspinner">
+                <div v-if="logoutSpinner">
                 Logging out...
                 <v-progress-linear color="primary" indeterminate :height="1"></v-progress-linear>
                 </div>
@@ -55,13 +55,44 @@
 </template>
   
 <script setup>
-    import { ref } from 'vue';
-    // import Login from '@/views/Login.vue';
-    import SelectPage from '@/components/SelectPage.vue';
-    const drawer = ref(0);
+import { ref } from 'vue';
+import axios from 'axios';
+import imageSrc from '@/assets/webhistopath.png';
+
+// import Login from '@/views/Login.vue';
+import SelectPage from '@/components/SelectPage.vue';
+
+const drawer = ref(0);
+
+const logoutSpinner = ref(false)
+const isLoggedIn = ref(!!localStorage.getItem('token'))
+
+const logout = async () => {
+    try {
+        this.logoutspinner = true;
+        // Make a request to the logout endpoint on the Laravel backend
+        await axios.post('http://127.0.0.1:1234/api/logout', null, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            // 'X-XSRF-TOKEN': document.head.querySelector('meta[name="csrf-token"]').content,
+            },
+        });
+        // Clear user-related data from localStorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('userRole');
+        // Redirect to the login page or perform other actions as needed
+        this.$router.push({ name: 'Login' });
+        
+        this.logoutspinner = false;
+    } catch (error) {
+        console.error('Logout failed', error.response.data);
+        // Handle error, show a message, etc.
+    }
+}
+
 </script>
   
-<script>
+<!-- <script>
     import axios from 'axios';
     import imageSrc from '@/assets/webhistopath.png';
     export default {
@@ -98,5 +129,5 @@
             },
         },
     }
-</script>
+</script> -->
   

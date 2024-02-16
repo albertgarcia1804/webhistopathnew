@@ -33,9 +33,10 @@
                     <v-list-item
                         prepend-icon="mdi-cog"
                         v-bind="props"
-                        title="Other Settings"
+                        title="Settings"
                     ></v-list-item>
                     </template>
+                    <v-list-item title="Phases" to="/admin/phases"></v-list-item>
                     <v-list-item title="Branches" to="/admin/branches"></v-list-item>
                     <v-list-item title="Locations" to="/admin/locations"></v-list-item>
                 </v-list-group>

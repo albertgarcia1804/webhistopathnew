@@ -81,7 +81,6 @@
                         localStorage.setItem('userRole', response.data.role);
                         this.loading = true;
                         
-                        console.log(response.data);
                         if(response.data.role == '0'){
                             this.$router.push({ name: 'AdminHome' });
                         } else if(response.data.role == '30'){
