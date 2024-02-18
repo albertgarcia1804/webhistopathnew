@@ -57,6 +57,12 @@ const routes = [
         component: () => import('@/views/admin/test_codes/Index.vue'),
       },
       {
+        path: 'test_codes/edit/:id',
+        name: 'EditTestCode',
+        component: () => import('@/views/admin/test_codes/Edit.vue'),
+      },
+      
+      {
         path: 'test_groups',
         name: 'TestGroups',
         component: () => import('@/views/admin/test_groups/Index.vue'),
